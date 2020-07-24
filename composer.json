@@ -3,6 +3,9 @@
   "type": "drupal-module",
   "description": "Extra field set.",
   "keywords": ["Drupal", "extra", "field"],
-  "homepage": "https://bitbucket.org/metadrop/extra_field_set",
-  "license": "GPL-2.0+"
+  "homepage": "https://gitlab.com/metadrop-group/extra_field_set",
+  "license": "GPL-2.0+",
+  "require": {
+    "drupal/core": "^8 || ^9"
+  }
 }
