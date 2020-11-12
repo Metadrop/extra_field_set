@@ -15,7 +15,8 @@ use Drupal\Core\Link;
  *   id = "title",
  *   label = @Translation("Title"),
  *   bundles = {
- *     "node.*"
+ *     "node.*",
+ *     "taxonomy_term.*"
  *   },
  *   visible = false
  * )
