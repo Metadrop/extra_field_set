@@ -28,16 +28,16 @@ class Title extends ExtraFieldPlusDisplayBase {
    */
   public function view(ContentEntityInterface $entity) {
     $title = $entity->label();
-    if ($this->getSetting('linked')) {
+    if ($this->getEntityExtraFieldSetting('linked')) {
       $title = Link::fromTextAndUrl($title, $entity->toUrl())->toString();
     }
     $output = [];
     $output[] = [
       '#type' => 'html_tag',
-      '#tag' => $this->getSetting('tag'),
+      '#tag' => $this->getEntityExtraFieldSetting('tag'),
       '#value' => $title,
       '#attributes' => [
-        'class' => [$this->getSetting('class')],
+        'class' => [$this->getEntityExtraFieldSetting('class')],
       ],
     ];
     return $output;
@@ -46,8 +46,8 @@ class Title extends ExtraFieldPlusDisplayBase {
   /**
    * {@inheritdoc}
    */
-  public function settingsForm() {
-    $form = parent::settingsForm();
+  public static function getExtraFieldSettingsForm(string $field_id, string $entity_type_id, string $bundle, string $view_mode = 'default'): array {
+    $form = parent::getExtraFieldSettingsForm($field_id, $entity_type_id, $bundle, $view_mode);
     $heading_options = [
       'span' => 'span',
       'div' => 'div',
@@ -56,20 +56,20 @@ class Title extends ExtraFieldPlusDisplayBase {
       $heading_options['h' . $level] = 'H' . $level;
     }
     $form['tag'] = [
-      '#title' => $this->t('Tag'),
+      '#title' => t('Tag'),
       '#type' => 'select',
-      '#description' => $this->t('Select the tag which will be wrapped around the title.'),
+      '#description' => t('Select the tag which will be wrapped around the title.'),
       '#options' => $heading_options,
     ];
     $form['linked'] = [
-      '#title' => $this->t('Link to the Content'),
+      '#title' => t('Link to the Content'),
       '#type' => 'checkbox',
-      '#description' => $this->t('Wrap the title with a link to the content.'),
+      '#description' => t('Wrap the title with a link to the content.'),
     ];
     $form['class'] = [
-      '#title' => $this->t('CSS Class'),
+      '#title' => t('CSS Class'),
       '#type' => 'textfield',
-      '#description' => $this->t('An optional css class to add to the wrapper.'),
+      '#description' => t('An optional css class to add to the wrapper.'),
     ];
 
     return $form;
@@ -78,8 +78,8 @@ class Title extends ExtraFieldPlusDisplayBase {
   /**
    * {@inheritdoc}
    */
-  public function defaultFormValues() {
-    $values = parent::defaultFormValues();
+  protected static function defaultExtraFieldSettings() : array {
+    $values = parent::defaultExtraFieldSettings();
 
     $values += [
       'tag' => 'h2',

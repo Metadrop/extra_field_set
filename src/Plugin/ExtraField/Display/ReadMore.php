@@ -27,8 +27,8 @@ class ReadMore extends ExtraFieldPlusDisplayBase {
    */
   public function view(ContentEntityInterface $entity) {
     // phpcs:ignore
-    $text = $this->t((string) $this->getSetting('text'));
-    if ($this->getSetting('linked')) {
+    $text = $this->t((string) $this->getEntityExtraFieldSetting('text'));
+    if ($this->getEntityExtraFieldSetting('linked')) {
       $text = Link::fromTextAndUrl($text, $entity->toUrl())->toString();
     }
     $output = [];
@@ -44,18 +44,18 @@ class ReadMore extends ExtraFieldPlusDisplayBase {
   /**
    * {@inheritdoc}
    */
-  public function settingsForm() {
-    $form = parent::settingsForm();
+  public static function getExtraFieldSettingsForm(string $field_id, string $entity_type_id, string $bundle, string $view_mode = 'default'): array {
+    $form = parent::getExtraFieldSettingsForm($field_id, $entity_type_id, $bundle, $view_mode);
 
     $form['linked'] = [
-      '#title' => $this->t('Link to the content'),
+      '#title' => t('Link to the content'),
       '#type' => 'checkbox',
-      '#description' => $this->t('Link to the content (or just show as plain text).'),
+      '#description' => t('Link to the content (or just show as plain text).'),
     ];
     $form['text'] = [
       '#title' => 'Text to show',
       '#type' => 'textfield',
-      '#description' => $this->t('Text to be shohwn. Use original language, it will be translatable.'),
+      '#description' => t('Text to be shohwn. Use original language, it will be translatable.'),
       '#required' => TRUE,
     ];
 
@@ -65,12 +65,12 @@ class ReadMore extends ExtraFieldPlusDisplayBase {
   /**
    * {@inheritdoc}
    */
-  public function defaultFormValues() {
-    $values = parent::defaultFormValues();
+  protected static function defaultExtraFieldSettings() : array {
+    $values = parent::defaultExtraFieldSettings();
 
     $values += [
       'linked' => '1',
-      'text' => $this->t('Read more'),
+      'text' => t('Read more'),
     ];
 
     return $values;
